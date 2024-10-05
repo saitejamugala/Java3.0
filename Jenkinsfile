@@ -20,7 +20,7 @@ pipeline{
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/praveen1994dec/Java_app_3.0.git"
+                url: "https://github.com/saitejamugala/Java3.0.git"
             )
             }
         }
@@ -70,6 +70,15 @@ pipeline{
                script{
                    
                    mvnBuild()
+               }
+            }
+        }
+        stage('JFrog: Artifacts'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+curl -u admin:password -X POST "http://<Your-ec2-IP>:8081/artifactory/api/copy/libs-release-local/path/to/artifact_xx_xxx.jar?to=/libs-snapshot-local/path/to/artifact_xx_xxx.jar"
+                   
                }
             }
         }
